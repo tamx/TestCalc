@@ -1,5 +1,6 @@
+package jp.cane.tam.calc;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class calc {
@@ -25,25 +26,31 @@ public class calc {
         return 0;
     }
 
-    public static void main(String argv[]) throws IOException {
+    public static int Exec(String command) throws Exception {
+        lexer.Word[] sentence = lexer.Lexer(command + "\n");
+        if (sentence == null) {
+            throw new Exception();
+        }
+        if (sentence.length == 1 && sentence[0].Type == lexer.TYPE_OTHERS) {
+            throw new Exception();
+        }
+        parser.Syntax sytx = parser.Parser(null, sentence, 0);
+        if (sytx.Cost != sentence.length - 1) {
+            System.out.println(sytx.Cost);
+            System.out.println("Error");
+            throw new Exception();
+        }
+        int result = calc_sub(sytx);
+        return result;
+    }
+
+    public static void main(String argv[]) throws Exception {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
         while (true) {
             String line = reader.readLine();
             System.out.println(line);
-            lexer.Word[] sentence = lexer.Lexer(line + "\n");
-            if (sentence == null) {
-                return;
-            }
-            if (sentence.length == 1 && sentence[0].Type == lexer.TYPE_OTHERS) {
-                continue;
-            }
-            parser.Syntax sytx = parser.Parser(sentence, 0);
-            if (sytx.Cost != sentence.length - 1) {
-                System.out.println("Error");
-                continue;
-            }
-            int result = calc_sub(sytx);
+            int result = Exec(line);
             System.out.println(result);
         }
     }
