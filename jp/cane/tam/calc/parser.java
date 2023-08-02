@@ -60,7 +60,7 @@ public class parser {
                             s1, s2 },
                     s1.Cost + 1 + s2.Cost);
             Syntax sytx = parser_term(sytxThis,
-                    sentence, index + sytxThis.Cost);
+                    sentence, index + length1 + 1 + s2.Cost);
             return sytx;
         }
         return s1;
@@ -91,7 +91,7 @@ public class parser {
                     new Syntax[] { s1, s2 },
                     s1.Cost + 1 + s2.Cost);
             Syntax sytx = Parser(sytxThis,
-                    sentence, index + sytxThis.Cost);
+                    sentence, index + length1 + 1 + s2.Cost);
             return sytx;
         }
         return s1;

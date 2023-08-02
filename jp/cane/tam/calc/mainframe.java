@@ -55,6 +55,7 @@ public class mainframe {
             gbc2.gridwidth = 5;
             frame.add(this.command, gbc2);
             for (String[] row : new String[][] {
+                    { "", "", "(", ")" },
                     { "7", "8", "9", "/" },
                     { "4", "5", "6", "*" },
                     { "1", "2", "3", "-" },
