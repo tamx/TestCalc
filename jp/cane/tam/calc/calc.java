@@ -44,7 +44,22 @@ public class calc {
         return result;
     }
 
-    public static void main(String argv[]) throws Exception {
+    private static void test(int expectedValue, String equation) {
+        try {
+            int result = Exec(equation);
+            if (result != expectedValue) {
+                System.err.println("NG: " + equation);
+                System.err.println("expected is " + expectedValue +
+                        " but " + result);
+                return;
+            }
+            System.err.println("OK: " + equation + " = " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void CUI(String argv[]) throws Exception {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
         while (true) {
@@ -53,5 +68,22 @@ public class calc {
             int result = Exec(line);
             System.out.println(result);
         }
+    }
+
+    public static void main(String argv[]){
+        test(3, "3");
+        test(6543, "6543");
+        test(3, "003");
+        test(8, "3+5");
+        test(-7, "3-5-5");
+        test(15, "3*5");
+        test(4, "8/2");
+        test(12, "8/2*3");
+        test(7, "3+8/2");
+        test(1, "3-8/2+2");
+        test(-5, "3-5-5+2");
+        test(2, "6/3*2*2/4");
+        test(6, "(3+9)/2");
+        test(1, "3-8/(2+2)");
     }
 }
