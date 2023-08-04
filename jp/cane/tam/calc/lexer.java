@@ -19,51 +19,57 @@ public class lexer {
         }
     }
 
-    private static Word lexer_analyze(String line_sub) {
-        for (int index = 0; index < line_sub.length(); index++) {
-            char r = line_sub.charAt(index);
+    private String line = "";
+
+    public lexer(String line) {
+        this.line = line + "\n";
+    }
+
+    private Word lexer_analyze(int index) {
+        for (int i = index; i < this.line.length(); i++) {
+            char r = this.line.charAt(i);
             if (r == ' ' || r == '\t') {
                 continue;
             }
-            if (index > 0) {
+            if (i > index) {
                 Word w = new Word(TYPE_SPACE,
-                        line_sub.substring(0, index));
+                        this.line.substring(index, i));
                 return w;
             }
             break;
         }
-        for (int index = 0; index < line_sub.length(); index++) {
-            char r = line_sub.charAt(index);
+        for (int i = index; i < this.line.length(); i++) {
+            char r = this.line.charAt(i);
             if (r >= '0' && r <= '9') {
                 continue;
             }
-            if (index > 0) {
+            if (i > index) {
                 Word w = new Word(TYPE_NUMBER,
-                        line_sub.toString().substring(0, index));
+                        this.line.substring(index, i));
                 return w;
             }
             break;
         }
-        if (SYMBOL_CODES.indexOf(line_sub.charAt(0)) >= 0) {
+        if (SYMBOL_CODES.indexOf(this.line.charAt(index)) >= 0) {
             Word w = new Word(TYPE_SYMBOL,
-                    line_sub.substring(0, 1));
+                    this.line.substring(index, index + 1));
             return w;
         }
         Word w = new Word(TYPE_OTHERS,
-                line_sub.substring(0, 1));
+                this.line.substring(index, index + 1));
         return w;
     }
 
-    public static Word[] Lexer(String line) {
+    public Word[] analyze() throws Exception {
         ArrayList<Word> sentence = new ArrayList<Word>();
-        for (int index = 0; index < line.length();) {
-            Word w = lexer_analyze(line.substring(index));
+        for (int index = 0; index < this.line.length();) {
+            Word w = lexer_analyze(index);
             if (w.Type != TYPE_SPACE) {
                 sentence.add(w);
             }
             if (w.Value.length() == 0) {
                 System.out.println("Error: lexer analyze detected the 0 length word.");
-                return null;
+                throw new Exception("0 length word");
             }
             index += w.Value.length();
         }

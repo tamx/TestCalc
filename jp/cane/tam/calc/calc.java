@@ -27,7 +27,7 @@ public class calc {
     }
 
     public static int Exec(String command) throws Exception {
-        lexer.Word[] sentence = lexer.Lexer(command + "\n");
+        lexer.Word[] sentence = new lexer(command).analyze();
         if (sentence == null) {
             throw new Exception();
         }
@@ -70,7 +70,7 @@ public class calc {
         }
     }
 
-    public static void main(String argv[]){
+    public static void main(String argv[]) {
         test(3, "3");
         test(6543, "6543");
         test(3, "003");
