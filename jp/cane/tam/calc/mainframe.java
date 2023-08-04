@@ -104,7 +104,7 @@ public class mainframe {
         this.console.setText(con);
         try {
             int result = calc.Exec(com);
-            con += "\n= " + String.valueOf(result);
+            con += "\n = " + String.valueOf(result);
         } catch (Exception e) {
             // e.printStackTrace();
             con += "\nError: " + e.getMessage();
