@@ -96,6 +96,10 @@ public class mainframe {
     private void execCalc() {
         String com = this.command.getText();
         String con = this.console.getText();
+        if (com.trim().length() == 0) {
+            // empty command
+            return;
+        }
         con += "\n" + com;
         this.console.setText(con);
         try {

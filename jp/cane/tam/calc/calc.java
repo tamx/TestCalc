@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class calc {
-    public static int calc_sub(parser.Syntax sytx) {
+    public static int calc_sub(parser.Syntax sytx) throws Exception {
         lexer.Word leaf = sytx.Leaf;
         if (leaf.Type == lexer.TYPE_NUMBER) {
             int value = Integer.valueOf(leaf.Value);
@@ -23,7 +23,7 @@ public class calc {
             }
         }
         System.out.println("something wrong");
-        return 0;
+        throw new Exception("something wrong");
     }
 
     public static int Exec(String command) throws Exception {
@@ -34,10 +34,9 @@ public class calc {
         if (sentence.length == 1 && sentence[0].Type == lexer.TYPE_OTHERS) {
             throw new Exception();
         }
-        parser.Syntax sytx = parser.Parser(null, sentence, 0);
+        parser.Syntax sytx = new parser(sentence).Parse();
         if (sytx.Cost != sentence.length - 1) {
-            System.out.println(sytx.Cost);
-            System.out.println("Error");
+            System.out.println("Error: Syntax cost is " + sytx.Cost);
             throw new Exception();
         }
         int result = calc_sub(sytx);
